@@ -8,10 +8,12 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     email: '',
     password: '',
     confirmPassword: '',
-    name: ''    
+    name: '',
+    role: 'user' // Default role
   });
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { login, register } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -21,30 +23,58 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    if (mode === 'register') {
-      if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
-        return;
+    try {
+      if (mode === 'register') {
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setLoading(false);
+          return;
+        }
+        
+        // Register with Firebase and store role
+        await register(
+          formData.email, 
+          formData.password, 
+          {
+            name: formData.name,
+            role: formData.role
+          }
+        );
+      } else {
+        // Login with Firebase
+        await login(formData.email, formData.password);
       }
-      // Here you would typically make an API call to register
-      // For now, we'll simulate a successful registration
-      login({
-        name: formData.name,
-        email: formData.email
-      });
-    } else {
-      // Here you would typically make an API call to login
-      // For now, we'll simulate a successful login
-      login({
-        email: formData.email
-      });
+      
+      onClose();
+    } catch (error) {
+      console.error("Auth error:", error);
+      
+      // Handle common Firebase auth errors
+      switch(error.code) {
+        case 'auth/email-already-in-use':
+          setError('Email is already in use');
+          break;
+        case 'auth/invalid-email':
+          setError('Invalid email address');
+          break;
+        case 'auth/weak-password':
+          setError('Password is too weak');
+          break;
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+          setError('Invalid email or password');
+          break;
+        default:
+          setError('An error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false);
     }
-    
-    onClose();
   };
 
   const toggleMode = () => {
@@ -53,7 +83,8 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
       email: '',
       password: '',
       confirmPassword: '',
-      name: ''
+      name: '',
+      role: 'user'
     });
     setError('');
   };
@@ -70,17 +101,45 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         
         <form onSubmit={handleSubmit}>
           {mode === 'register' && (
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <>
+              <div className="form-group">
+                <label htmlFor="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="role">I am a:</label>
+                <div className="role-selection">
+                  <label className="role-option">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="user"
+                      checked={formData.role === 'user'}
+                      onChange={handleChange}
+                    />
+                    <span>Student</span>
+                  </label>
+                  <label className="role-option">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="lecturer"
+                      checked={formData.role === 'lecturer'}
+                      onChange={handleChange}
+                    />
+                    <span>Lecturer</span>
+                  </label>
+                </div>
+              </div>
+            </>
           )}
           
           <div className="form-group">
@@ -121,14 +180,14 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
             </div>
           )}
           
-          <button type="submit" className="submit-button">
-            {mode === 'login' ? 'Login' : 'Register'}
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? 'Processing...' : mode === 'login' ? 'Login' : 'Register'}
           </button>
         </form>
         
         <p className="toggle-mode">
           {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
-          <button onClick={toggleMode} className="toggle-button">
+          <button onClick={toggleMode} className="toggle-button" disabled={loading}>
             {mode === 'login' ? 'Register' : 'Login'}
           </button>
         </p>
@@ -137,4 +196,4 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   );
 };
 
-export default AuthModal; 
+export default AuthModal;

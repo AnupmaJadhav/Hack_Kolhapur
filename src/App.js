@@ -18,7 +18,6 @@ const AppContent = () => {
   return (
     <div className="App">
       <Navbar />
-      <AuthProvider></AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
