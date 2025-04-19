@@ -50,7 +50,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/" className="logo" onClick={closeMenu}>MyApp</Link>
+        <Link to="/" className="logo" onClick={closeMenu}>Women_Empowerment</Link>
       </div>
 
       <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">

@@ -11,6 +11,7 @@ import UserDashboard from './components/dashboard/UserDashboard';
 import AuthModal from './components/auth/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import EntrepreneurshipHub from './components/entrepreneurship/EntrepreneurshipHub';
+import SupportButton from './components/support/SupportButton';
 
 const AppContent = () => {
   const { showAuthModal, setShowAuthModal } = useAuth();
@@ -33,6 +34,7 @@ const AppContent = () => {
         onClose={() => setShowAuthModal(false)}
         initialMode="login"
       />
+      <SupportButton />
     </div>
   );
 };
