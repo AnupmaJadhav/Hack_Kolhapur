@@ -101,7 +101,7 @@ const BookingPage = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="mode">Communication Mode</label>
+            <label>Communication Mode</label>
             <div className="radio-group">
               <label className="radio-label">
                 <input
@@ -112,6 +112,16 @@ const BookingPage = () => {
                   onChange={(e) => setCommunicationMode(e.target.value)}
                 />
                 Text Chat
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="mode"
+                  value="voice"
+                  checked={communicationMode === 'voice'}
+                  onChange={(e) => setCommunicationMode(e.target.value)}
+                />
+                Voice Call
               </label>
               <label className="radio-label">
                 <input
