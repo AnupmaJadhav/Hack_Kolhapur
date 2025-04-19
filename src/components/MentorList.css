@@ -1,0 +1,152 @@
+.mentor-section {
+  padding: 4rem 2rem;
+  background-color: #f8fafc;
+}
+
+.mentor-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.mentor-header h2 {
+  font-size: 2.5rem;
+  color: #1a365d;
+  margin-bottom: 1rem;
+}
+
+.mentor-header p {
+  font-size: 1.2rem;
+  color: #4a5568;
+}
+
+.mentor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mentor-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.mentor-card:hover {
+  transform: translateY(-5px);
+}
+
+.mentor-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.mentor-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.availability-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: #2b6cb0;
+}
+
+.mentor-info {
+  padding: 1.5rem;
+}
+
+.mentor-info h3 {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.profession {
+  color: #2b6cb0;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.specialization, .experience {
+  font-size: 0.95rem;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+}
+
+.courses-section {
+  margin: 1rem 0;
+}
+
+.courses-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.courses-section li {
+  font-size: 0.9rem;
+  color: #4a5568;
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.courses-section li:before {
+  content: "•";
+  color: #2b6cb0;
+  position: absolute;
+  left: 0;
+}
+
+.connect-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #2b6cb0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.connect-button:hover:not(:disabled) {
+  background-color: #2c5282;
+}
+
+.connect-button.requested {
+  background-color: #48bb78;
+  cursor: default;
+}
+
+.connect-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .mentor-section {
+    padding: 2rem 1rem;
+  }
+
+  .mentor-header h2 {
+    font-size: 2rem;
+  }
+
+  .mentor-grid {
+    grid-template-columns: 1fr;
+  }
+} 

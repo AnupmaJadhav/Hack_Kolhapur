@@ -1,0 +1,415 @@
+.entrepreneurship-hub {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hub-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(to right, #2b6cb0, #1a365d);
+  padding: 3rem 1rem;
+  border-radius: 8px;
+  color: white;
+}
+
+.hub-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.hub-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.hub-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: none;
+  color: #4a5568;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-button:hover {
+  background-color: #f7fafc;
+  color: #2b6cb0;
+}
+
+.nav-button.active {
+  background-color: #2b6cb0;
+  color: white;
+}
+
+.nav-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background-color: #2b6cb0;
+  border-radius: 3px;
+}
+
+/* Overview Section */
+.overview-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.overview-section h2 {
+  color: #1a365d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.overview-section ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.overview-section li {
+  padding: 0.75rem 0;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.overview-section li::before {
+  content: '✓';
+  color: #48bb78;
+  font-weight: bold;
+  background: #f0fff4;
+  padding: 0.25rem 0.5rem;
+  border-radius: 50%;
+}
+
+/* Quick Stats */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e2e8f0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-item h3 {
+  color: #2b6cb0;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+/* Resources Section */
+.resources-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.resource-category h2 {
+  color: #1a365d;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.resource-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.resource-card h3 {
+  color: #2b6cb0;
+  margin-bottom: 1rem;
+}
+
+.resource-card p {
+  color: #4a5568;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2b6cb0;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: #ebf8ff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.resource-link:hover {
+  background: #bee3f8;
+  color: #1a365d;
+}
+
+/* Loans Section */
+.loans-section {
+  padding: 2rem;
+}
+
+.loans-section h2 {
+  color: #1a365d;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.loan-portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.loan-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.loan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loan-card h3 {
+  color: #2b6cb0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.loan-card p {
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.loan-details {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.loan-amount {
+  font-weight: 600;
+  color: #48bb78;
+  margin-bottom: 0.5rem;
+}
+
+.loan-eligibility {
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.loan-interest {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.loan-link {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #2b6cb0;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.loan-link:hover {
+  background-color: #1a365d;
+}
+
+/* Success Stories Section */
+.success-stories-section {
+  padding: 2rem;
+}
+
+.success-stories-section h2 {
+  color: #1a365d;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.story-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.story-card h3 {
+  color: #2b6cb0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.story-description {
+  color: #4a5568;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.story-details {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.story-revenue {
+  color: #48bb78;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.story-journey {
+  color: #4a5568;
+  font-style: italic;
+}
+
+.story-tips {
+  margin-top: 1rem;
+}
+
+.story-tips h4 {
+  color: #1a365d;
+  margin-bottom: 0.5rem;
+}
+
+.story-tips ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.story-tips li {
+  color: #4a5568;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.story-tips li::before {
+  content: '→';
+  color: #2b6cb0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .entrepreneurship-hub {
+    padding: 1rem;
+  }
+
+  .hub-header h1 {
+    font-size: 2rem;
+  }
+
+  .nav-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .quick-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-grid,
+  .loan-portal-grid,
+  .stories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-card,
+  .loan-card,
+  .resource-card {
+    margin-bottom: 1rem;
+  }
+} 

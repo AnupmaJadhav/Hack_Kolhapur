@@ -1,0 +1,242 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Profile Section */
+.profile-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  overflow: hidden;
+  border: 3px solid #2b6cb0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+  color: #1a365d;
+  margin-bottom: 0.5rem;
+}
+
+.profile-info .role {
+  color: #2b6cb0;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.profile-info .email {
+  color: #4a5568;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h2 {
+  color: #1a365d;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Progress Section */
+.progress-stats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.progress-circle {
+  width: 150px;
+  height: 150px;
+}
+
+.circular-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.circular-chart .percentage {
+  fill: #2b6cb0;
+  font-size: 0.5em;
+  text-anchor: middle;
+  font-weight: bold;
+}
+
+.progress-details p {
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Mentorship Section */
+.session-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.session-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  border-left: 4px solid #2b6cb0;
+}
+
+.session-card.completed {
+  border-left-color: #48bb78;
+}
+
+.session-card.upcoming {
+  border-left-color: #ed8936;
+}
+
+.session-info h3 {
+  color: #2d3748;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.session-info .mentor {
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.session-info .date {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.completed .status-badge {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.upcoming .status-badge {
+  background: #feebc8;
+  color: #7b341e;
+}
+
+/* Certificates Section */
+.certificate-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.certificate-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.certificate-icon {
+  font-size: 2rem;
+}
+
+.certificate-info {
+  flex-grow: 1;
+}
+
+.certificate-info h3 {
+  color: #2d3748;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.certificate-info .issuer {
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.certificate-info .date {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.view-certificate-btn {
+  padding: 0.5rem 1rem;
+  background: #2b6cb0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.view-certificate-btn:hover {
+  background: #2c5282;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .progress-stats {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .session-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .certificate-card {
+    flex-direction: column;
+    text-align: center;
+  }
+} 
