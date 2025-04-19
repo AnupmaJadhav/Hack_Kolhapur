@@ -1,3 +1,16 @@
+:root {
+  --primary: #FF69B4;          /* Brighter Pink - More vibrant and empowering */
+  --primary-dark: #FF1493;     /* Deeper Pink for contrast */
+  --secondary: #9370DB;        /* Brighter Royal Purple */
+  --accent: #FFA07A;          /* Brighter Warm Orange */
+  --text-dark: #2D3748;       /* Dark Gray for Text - keeping for readability */
+  --text-light: #718096;      /* Light Gray for Secondary Text - keeping for readability */
+  --background-light: #FFF0F5; /* Lighter Pink Background */
+  --background-warm: #FFEFD5;  /* Warmer Light Background */
+  --success: #4CAF50;         /* Brighter Green */
+  --white: #FFFFFF;
+}
+
 .home {
   min-height: 100vh;
   display: flex;
@@ -6,7 +19,7 @@
 
 /* Hero Section */
 .hero {
-  background-color: #f0f5ff;
+  background-color: var(--background-light);
   padding: 2rem 0;
   min-height: 400px;
   display: flex;
@@ -30,7 +43,7 @@
 
 .hero-text h1 {
   font-size: 2.8rem;
-  color: #1a365d;
+  color: var(--secondary);
   margin-bottom: 1.5rem;
   line-height: 1.2;
   font-weight: 700;
@@ -38,14 +51,14 @@
 
 .hero-text p {
   font-size: 1.2rem;
-  color: #4a5568;
+  color: var(--text-light);
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .get-started-btn {
-  background-color: #2b6cb0;
-  color: white;
+  background-color: var(--primary);
+  color: var(--white);
   padding: 1rem 2rem;
   border: none;
   border-radius: 8px;
@@ -56,7 +69,7 @@
 }
 
 .get-started-btn:hover {
-  background-color: #2c5282;
+  background-color: var(--primary-dark);
 }
 
 .hero-image {
@@ -75,12 +88,12 @@
 .mission-section {
   padding: 5rem 2rem;
   text-align: center;
-  background-color: #f8f9fa;
+  background-color: var(--background-warm);
 }
 
 .mission-section h2 {
   font-size: 2.5rem;
-  color: #1a365d;
+  color: var(--secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -88,7 +101,7 @@
   max-width: 800px;
   margin: 0 auto 4rem;
   font-size: 1.2rem;
-  color: #4a5568;
+  color: var(--text-light);
   line-height: 1.6;
 }
 
@@ -101,26 +114,28 @@
 }
 
 .mission-card {
-  background: white;
+  background: var(--white);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .mission-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
 }
 
 .mission-card h3 {
   font-size: 1.5rem;
-  color: #2b6cb0;
+  color: var(--primary);
   margin-bottom: 1rem;
 }
 
 .mission-card p {
-  color: #4a5568;
+  color: var(--text-light);
   line-height: 1.5;
 }
 
