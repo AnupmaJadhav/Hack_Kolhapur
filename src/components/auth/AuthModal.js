@@ -8,7 +8,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     email: '',
     password: '',
     confirmPassword: '',
-    name: ''
+    name: ''    
   });
   const [error, setError] = useState('');
   const { login } = useAuth();
