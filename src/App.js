@@ -11,7 +11,8 @@ import UserDashboard from './components/dashboard/UserDashboard';
 import AuthModal from './components/auth/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import EntrepreneurshipHub from './components/entrepreneurship/EntrepreneurshipHub';
-import SupportButton from './components/support/SupportButton';
+import SupportButton from './components/support/SupportButton.js';
+import AddYourContent from './components/content/AddYourContent.js';
 
 const AppContent = () => {
   const { showAuthModal, setShowAuthModal } = useAuth();
@@ -27,6 +28,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/entrepreneurship" element={<EntrepreneurshipHub />} />
+        <Route path="/add-content" element={<AddYourContent />} />
       </Routes>
 
       <AuthModal 
