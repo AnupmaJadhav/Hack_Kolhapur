@@ -101,7 +101,7 @@ const BookingPage = () => {
           </div>
 
           <div className="form-group">
-            <label>Communication Mode</label>
+            <label htmlFor="mode">Communication Mode</label>
             <div className="radio-group">
               <label className="radio-label">
                 <input
