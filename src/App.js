@@ -100,6 +100,11 @@ const AppContent = () => {
             } 
           />
           <Route 
+            path="/dashboard" 
+            element={<ProtectedRoute element={<UserDashboard />} allowedRole="user" />} 
+          />
+          <Route path="/course/:lecturerId/:courseId" element={<CourseDetail />} />
+          <Route 
             path="/entrepreneurship" 
             element={
               <ProtectedRoute 
@@ -108,11 +113,6 @@ const AppContent = () => {
               />
             } 
           />
-          <Route 
-            path="/dashboard" 
-            element={<ProtectedRoute element={<UserDashboard />} allowedRole="user" />} 
-          />
-          <Route path="/course/:id" element={<CourseDetail />} />
           <Route 
             path="/add-content" 
             element={<ProtectedRoute element={<AddContent />} allowedRole="lecturer" />} 
