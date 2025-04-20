@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { ref, push, set } from 'firebase/database';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { database, storage } from '../../firebase/config';
+import { ref, push, set, onValue } from 'firebase/database';
+import { database } from '../../firebase/config';
 import CourseStats from './CourseStats';
 import './AddContent.css';
+import { saveFile } from '../../utils/fileSystem';
 
 const AddContent = () => {
   const { user, userRole } = useAuth();
@@ -25,13 +25,35 @@ const AddContent = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [courses, setCourses] = useState([]);
 
-  // Redirect if not a lecturer
-  React.useEffect(() => {
-    if (userRole !== 'lecturer') {
+  // Redirect if not authenticated or not a lecturer
+  useEffect(() => {
+    if (!user || userRole !== 'lecturer') {
       navigate('/');
+      return;
     }
-  }, [userRole, navigate]);
+  }, [user, userRole, navigate]);
+
+  // Fetch existing courses for this lecturer
+  useEffect(() => {
+    if (user?.uid) {
+      const coursesRef = ref(database, 'courses');
+      const unsubscribe = onValue(coursesRef, (snapshot) => {
+        const coursesData = snapshot.val();
+        if (coursesData) {
+          const coursesList = Object.keys(coursesData).map((key) => ({
+            id: key,
+            ...coursesData[key]
+          })).filter(course => course.authorId === user.uid);
+          
+          setCourses(coursesList);
+        }
+      });
+      
+      return () => unsubscribe();
+    }
+  }, [user]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -58,10 +80,17 @@ const AddContent = () => {
       type: 'video',
       order: contentItems.length + 1
     });
+    setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check authentication and role
+    if (!user || userRole !== 'lecturer') {
+      setError('You must be authenticated as a lecturer to add content');
+      return;
+    }
     
     if (!title.trim() || !description.trim() || contentItems.length === 0) {
       setError('Please fill in all fields and add at least one content item');
@@ -72,29 +101,53 @@ const AddContent = () => {
     setError('');
     
     try {
-      // Create course entry in database
-      const courseRef = ref(database, 'courses');
+      // Create course entry in database under the lecturer's UID
+      const courseRef = ref(database, `courses/${user.uid}`);
       const newCourseRef = push(courseRef);
       const courseId = newCourseRef.key;
 
-      // Upload files and create content items
-      const uploadedContentItems = await Promise.all(
-        contentItems.map(async (item, index) => {
-          const fileRef = storageRef(storage, `courses/${courseId}/${item.file.name}`);
-          await uploadBytes(fileRef, item.file);
-          const downloadURL = await getDownloadURL(fileRef);
-
-          return {
+      // Process files and create content items
+      const uploadedContentItems = [];
+      
+      for (let i = 0; i < contentItems.length; i++) {
+        const item = contentItems[i];
+        setUploadProgress(((i + 1) / contentItems.length) * 100);
+        
+        try {
+          // Generate a unique file name to avoid conflicts
+          const timestamp = Date.now();
+          const originalName = item.file.name;
+          const fileName = `${originalName.split('.')[0]}-${timestamp}.${originalName.split('.').pop()}`;
+          
+          // Process file (in browser environment, this just prepares metadata)
+          const fileData = await saveFile(item.file, courseId, fileName);
+          
+          // Create a reader to get the file content for Base64 encoding
+          const reader = new FileReader();
+          
+          // Wrap the file reading in a promise
+          const fileContent = await new Promise((resolve, reject) => {
+            reader.onload = (event) => resolve(event.target.result);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(item.file);
+          });
+          
+          uploadedContentItems.push({
             title: item.title,
             description: item.description,
             type: item.type,
-            url: downloadURL,
-            order: index
-          };
-        })
-      );
+            fileUrl: fileData.relativePath,
+            fileName: originalName,
+            order: i,
+            dataUrl: item.file.size < 5000000 ? fileContent : null
+          });
+        } catch (err) {
+          console.error(`Error processing file ${i}:`, err);
+          throw new Error(`Failed to process file ${item.file.name}`);
+        }
+      }
 
-      // Save course data
+      // Save course data under the lecturer's own node
       await set(newCourseRef, {
         title,
         description,
@@ -111,17 +164,21 @@ const AddContent = () => {
       setContentItems([]);
       setShowForm(false);
       
-      // Clear success message after 3 seconds
       setTimeout(() => {
         setSuccess('');
       }, 3000);
     
     } catch (err) {
-      setError('Failed to add course. Please try again.');
+      setError(`Failed to add course: ${err.message}`);
       console.error('Error adding course:', err);
     } finally {
       setIsSubmitting(false);
+      setUploadProgress(0);
     }
+  };
+
+  const removeContentItem = (index) => {
+    setContentItems(prev => prev.filter((_, i) => i !== index));
   };
 
   if (userRole !== 'lecturer') {
@@ -174,13 +231,25 @@ const AddContent = () => {
           <div className="content-items-section">
             <h3>Course Content Items</h3>
             
-            {contentItems.map((item, index) => (
-              <div key={index} className="content-item-preview">
-                <h4>{item.title}</h4>
-                <p>{item.description}</p>
-                <span className="content-type-badge">{item.type}</span>
+            {contentItems.length > 0 && (
+              <div className="content-items-list">
+                {contentItems.map((item, index) => (
+                  <div key={index} className="content-item-preview">
+                    <h4>{item.title}</h4>
+                    <p>{item.description}</p>
+                    <span className="content-type-badge">{item.type}</span>
+                    <p className="file-name">{item.file.name}</p>
+                    <button 
+                      type="button" 
+                      className="remove-item-button"
+                      onClick={() => removeContentItem(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
 
             <div className="add-content-item-form">
               <h4>Add New Content Item</h4>
@@ -214,17 +283,30 @@ const AddContent = () => {
                   accept=".pdf,.mp4,.mov,.avi"
                   onChange={handleFileChange}
                 />
+                {currentItem.file && (
+                  <p className="file-info">Selected: {currentItem.file.name}</p>
+                )}
               </div>
 
               <button
                 type="button"
                 className="add-item-button"
                 onClick={handleAddContentItem}
+                disabled={!currentItem.title || !currentItem.description || !currentItem.file}
               >
                 Add Content Item
               </button>
             </div>
           </div>
+          
+          {uploadProgress > 0 && (
+            <div className="upload-progress-container">
+              <div className="upload-progress-bar" 
+                   style={{ width: `${uploadProgress}%` }}>
+                {Math.round(uploadProgress)}%
+              </div>
+            </div>
+          )}
           
           <div className="form-buttons">
             <button 
@@ -237,7 +319,7 @@ const AddContent = () => {
             <button 
               type="submit" 
               className="submit-button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || contentItems.length === 0}
             >
               {isSubmitting ? 'Adding Course...' : 'Add Course'}
             </button>
@@ -250,4 +332,4 @@ const AddContent = () => {
   );
 };
 
-export default AddContent; 
+export default AddContent;
