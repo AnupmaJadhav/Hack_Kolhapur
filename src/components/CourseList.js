@@ -7,6 +7,7 @@ import './CourseList.css';
 
 const CourseList = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +27,7 @@ const CourseList = () => {
                 lecturerId,
                 ...course
               }))
-            );
+            ).filter(course => course.status === 'published'); // Only show published courses
             setCourses(coursesArray);
           } else {
             setCourses([]);
@@ -47,9 +48,14 @@ const CourseList = () => {
     fetchCourses();
   }, []);
 
-  const filteredCourses = selectedCategory
-    ? courses.filter(course => course.category === selectedCategory)
-    : courses;
+  const filteredCourses = courses.filter(course => {
+    const matchesCategory = !selectedCategory || course.category === selectedCategory;
+    const matchesSearch = !searchQuery || 
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.authorName.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   if (loading) {
     return (
@@ -74,8 +80,17 @@ const CourseList = () => {
   }
 
   return (
-    <div>
+    <div className="course-list-container">
       <Header onCategorySelect={setSelectedCategory} selectedCategory={selectedCategory} />
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search courses..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
       <div className="course-list">
         <h2>
           {selectedCategory ? `${selectedCategory} Courses` : 'All Available Courses'}
@@ -84,16 +99,28 @@ const CourseList = () => {
         <div className="courses-grid">
           {filteredCourses.map(course => (
             <div key={course.id} className="course-card">
+              <div className="course-thumbnail">
+                {course.thumbnail ? (
+                  <img src={course.thumbnail} alt={course.title} />
+                ) : (
+                  <div className="default-thumbnail">
+                    <span className="thumbnail-icon">📚</span>
+                  </div>
+                )}
+              </div>
               <div className="course-info">
                 <h3>{course.title}</h3>
                 <div className="course-meta">
                   <span className="author">By: {course.authorName}</span>
                   <span className="date">Added: {new Date(course.createdAt).toLocaleDateString()}</span>
                 </div>
-                <p>{course.description}</p>
-                <Link to={`/course/${course.lecturerId}/${course.id}`} className="course-button">
-                  View Course
-                </Link>
+                <p className="course-description">{course.description}</p>
+                <div className="course-footer">
+                  <span className="category-tag">{course.category}</span>
+                  <Link to={`/course/${course.lecturerId}/${course.id}`} className="course-button">
+                    View Course
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

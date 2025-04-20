@@ -26,6 +26,7 @@ const AddContent = () => {
   const [success, setSuccess] = useState('');
   const [uploadProgress, setUploadProgress] = useState(0);
   const [courses, setCourses] = useState([]);
+  const [courseStatus, setCourseStatus] = useState('draft');
 
   // Redirect if not authenticated or not a lecturer
   useEffect(() => {
@@ -155,7 +156,9 @@ const AddContent = () => {
         authorName: user.displayName || user.email,
         createdAt: new Date().toISOString(),
         content: uploadedContentItems,
-        status: 'pending'
+        status: courseStatus,
+        category: 'General',
+        thumbnail: null
       });
       
       setSuccess('Course added successfully!');
@@ -163,6 +166,7 @@ const AddContent = () => {
       setDescription('');
       setContentItems([]);
       setShowForm(false);
+      setCourseStatus('draft');
       
       setTimeout(() => {
         setSuccess('');
@@ -226,6 +230,24 @@ const AddContent = () => {
               rows="4"
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="status">Course Status</label>
+            <select
+              id="status"
+              value={courseStatus}
+              onChange={(e) => setCourseStatus(e.target.value)}
+              className="status-select"
+            >
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+            <small className="status-help">
+              {courseStatus === 'draft' 
+                ? 'Draft courses are only visible to you' 
+                : 'Published courses are visible to all users'}
+            </small>
           </div>
 
           <div className="content-items-section">
