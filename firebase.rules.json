@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'lecturer'",
+        ".write": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'lecturer'",
+        "role": {
+          ".read": "auth != null",
+          ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || $uid === auth.uid)"
+        }
+      }
+    },
+    "lecturers": {
+      "$uid": {
+        "profile": {
+          ".read": "auth != null",
+          ".write": "$uid === auth.uid && root.child('users').child(auth.uid).child('role').val() === 'lecturer'"
+        }
+      }
+    }
+  }
+} 

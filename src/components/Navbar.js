@@ -49,7 +49,12 @@ const Navbar = () => {
 
   const handleAddContentClick = () => {
     navigate('/add-content');
-    setIsMenuOpen(false);
+    setIsProfileOpen(false);
+  };
+
+  const handleLecturerProfileClick = () => {
+    navigate('/lecturer-profile');
+    setIsProfileOpen(false);
   };
 
   return (
@@ -66,8 +71,12 @@ const Navbar = () => {
 
       <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
         <li><Link to="/" className="nav-link" onClick={closeMenu}>Home</Link></li>
-        <li><Link to="/mentors" className="nav-link" onClick={closeMenu}>MentorConnect</Link></li>
-        <li><Link to="/entrepreneurship" className="nav-link" onClick={closeMenu}>Entrepreneurship</Link></li>
+        {(!isAuthenticated || userRole === 'user') && (
+          <>
+            <li><Link to="/mentors" className="nav-link" onClick={closeMenu}>MentorConnect</Link></li>
+            <li><Link to="/entrepreneurship" className="nav-link" onClick={closeMenu}>Entrepreneurship</Link></li>
+          </>
+        )}
         {isAuthenticated && userRole === 'lecturer' && (
           <li>
             <Link to="/add-content" className="nav-link" onClick={closeMenu}>
@@ -105,15 +114,23 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="profile-menu">
-                  <button className="profile-menu-item" onClick={handleDashboardClick}>
-                    <span className="menu-icon">📊</span>
-                    Dashboard
-                  </button>
-                  {userRole === 'lecturer' && (
-                    <button className="profile-menu-item" onClick={handleAddContentClick}>
-                      <span className="menu-icon">📝</span>
-                      Add Content
+                  {userRole === 'user' && (
+                    <button className="profile-menu-item" onClick={handleDashboardClick}>
+                      <span className="menu-icon">📊</span>
+                      Dashboard
                     </button>
+                  )}
+                  {userRole === 'lecturer' && (
+                    <>
+                      <button className="profile-menu-item" onClick={handleLecturerProfileClick}>
+                        <span className="menu-icon">👤</span>
+                        Lecturer Profile
+                      </button>
+                      <button className="profile-menu-item" onClick={handleAddContentClick}>
+                        <span className="menu-icon">📝</span>
+                        Add Content
+                      </button>
+                    </>
                   )}
                   <button className="profile-menu-item" onClick={handleLogout}>
                     <span className="menu-icon">🚪</span>
