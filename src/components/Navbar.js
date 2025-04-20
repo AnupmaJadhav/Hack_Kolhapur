@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { logout, isAuthenticated, user } = useAuth();
+  const { logout, isAuthenticated, user, userRole } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileDropdownRef = useRef(null);
@@ -47,6 +47,11 @@ const Navbar = () => {
     setIsProfileOpen(false);
   };
 
+  const handleAddContentClick = () => {
+    navigate('/add-content');
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -63,6 +68,13 @@ const Navbar = () => {
         <li><Link to="/" className="nav-link" onClick={closeMenu}>Home</Link></li>
         <li><Link to="/mentors" className="nav-link" onClick={closeMenu}>MentorConnect</Link></li>
         <li><Link to="/entrepreneurship" className="nav-link" onClick={closeMenu}>Entrepreneurship</Link></li>
+        {isAuthenticated && userRole === 'lecturer' && (
+          <li>
+            <Link to="/add-content" className="nav-link" onClick={closeMenu}>
+              <span className="menu-icon">📝</span> Add Content
+            </Link>
+          </li>
+        )}
         {isAuthenticated && (
           <li className="profile-dropdown-container" ref={profileDropdownRef}>
             <button className="nav-link profile-link" onClick={toggleProfile}>
@@ -88,6 +100,7 @@ const Navbar = () => {
                     <div className="profile-details">
                       <h3>{user?.name || 'User'}</h3>
                       <p>{user?.email || 'user@example.com'}</p>
+                      <p className="user-role">{userRole || 'User'}</p>
                     </div>
                   </div>
                 </div>
@@ -96,6 +109,12 @@ const Navbar = () => {
                     <span className="menu-icon">📊</span>
                     Dashboard
                   </button>
+                  {userRole === 'lecturer' && (
+                    <button className="profile-menu-item" onClick={handleAddContentClick}>
+                      <span className="menu-icon">📝</span>
+                      Add Content
+                    </button>
+                  )}
                   <button className="profile-menu-item" onClick={handleLogout}>
                     <span className="menu-icon">🚪</span>
                     Logout
