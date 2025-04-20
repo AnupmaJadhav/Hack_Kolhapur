@@ -1,5 +1,5 @@
 .add-content-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
   background-color: var(--white);
@@ -11,12 +11,50 @@
   color: var(--text-dark);
   margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 2rem;
+}
+
+.add-course-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.add-course-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-course-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button-icon {
+  font-size: 1.4rem;
 }
 
 .add-content-form {
+  max-width: 800px;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -47,28 +85,45 @@
   border-color: var(--primary);
 }
 
-.submit-button {
-  background-color: var(--primary);
-  color: var(--white);
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.submit-button,
+.cancel-button {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  align-self: center;
-  min-width: 200px;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.submit-button {
+  background-color: var(--primary);
+  color: white;
 }
 
 .submit-button:hover {
   background-color: var(--primary-dark);
-  transform: scale(1.02);
+}
+
+.cancel-button {
+  background-color: var(--subtle);
+  color: var(--text-dark);
+}
+
+.cancel-button:hover {
+  background-color: var(--text-light);
 }
 
 .submit-button:disabled {
   background-color: var(--subtle);
   cursor: not-allowed;
-  transform: none;
 }
 
 .error-message {
@@ -92,6 +147,19 @@
 @media (max-width: 768px) {
   .add-content-container {
     margin: 1rem;
-    padding: 1.5rem;
+    padding: 1rem;
+  }
+
+  .add-content-form {
+    padding: 1rem;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .submit-button,
+  .cancel-button {
+    width: 100%;
   }
 } 
